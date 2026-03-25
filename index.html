@@ -1,77 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manitou Incline Time Estimator | How Long Does It Take?</title>
+const { getStore } = require('@netlify/blobs');
 
-    <!-- SEO -->
-    <meta name="description" content="Find out how long the Manitou Incline will take YOU — based on real hiker data. Enter your fitness level, elevation, and age for a personalized summit time estimate.">
-    <meta name="keywords" content="Manitou Incline time, how long does Manitou Incline take, Manitou Incline estimator">
-    <link rel="canonical" href="https://inclineestimator.netlify.app/">
+exports.handler = async (event) => {
+  const store = getStore('manitou-entries');
 
-    <style>
-        body { font-family: system-ui, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; }
-        input, select, button { padding: 10px; margin: 10px 0; width: 100%; font-size: 16px; }
-        button { background: #0066cc; color: white; border: none; cursor: pointer; }
-        #result { margin-top: 20px; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <h1>Manitou Incline Time Estimator</h1>
-    <p>Enter your details for a personalized estimate (data shared across devices via Netlify).</p>
+  // Handle CORS for browser requests
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
+  };
 
-    <label>Fitness Level:
-        <select id="fitness">
-            <option value="casual">Casual</option>
-            <option value="moderate">Moderate</option>
-            <option value="fit">Fit</option>
-            <option value="inactive">Inactive / Health Issues</option>
-        </select>
-    </label>
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers };
+  }
 
-    <label>Home Elevation (feet): <input type="number" id="elevation" value="6000"></label>
-    <label>Age: <input type="number" id="age" value="35"></label>
+  try {
+    if (event.httpMethod === 'GET') {
+      const entries = await store.get('all-entries', { type: 'json' }) || [];
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify(entries)
+      };
+    }
 
-    <button onclick="calculateTime()">Estimate My Time</button>
+    if (event.httpMethod === 'POST') {
+      const newEntry = JSON.parse(event.body);
+      let entries = await store.get('all-entries', { type: 'json' }) || [];
+      entries.unshift(newEntry); // add newest first
+      await store.setJSON('all-entries', entries);
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ success: true, entries })
+      };
+    }
 
-    <div id="result"></div>
-
-    <script>
-        // Simple client-side calculation (you can expand this later)
-        function calculateTime() {
-            const fitness = document.getElementById('fitness').value;
-            const elevation = parseInt(document.getElementById('elevation').value) || 6000;
-            const age = parseInt(document.getElementById('age').value) || 35;
-
-            let baseTime = 60; // minutes for average
-            if (fitness === 'inactive') baseTime += 30;
-            else if (fitness === 'casual') baseTime += 15;
-            else if (fitness === 'fit') baseTime -= 10;
-
-            const acclimation = (elevation > 7000) ? -5 : 0;
-            const ageFactor = (age > 50) ? 8 : 0;
-
-            const estimated = Math.round(baseTime + acclimation + ageFactor);
-
-            document.getElementById('result').innerHTML = `
-                <h2>Your estimated summit time: <strong>${estimated} minutes</strong></h2>
-                <p>Submissions are now shared across all devices (via Netlify Blobs).</p>
-            `;
-        }
-
-        // Load any existing entries from the shared function (basic fetch example)
-        async function loadEntries() {
-            try {
-                const res = await fetch('/.netlify/functions/entries');
-                const data = await res.json();
-                console.log('Shared entries:', data);
-            } catch (e) {
-                console.log('No entries yet or function not ready');
-            }
-        }
-
-        window.onload = loadEntries;
-    </script>
-</body>
-</html>
+    return { statusCode: 405, headers, body: 'Method not allowed' };
+  } catch (error) {
+    console.error(error);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: 'Server error' })
+    };
+  }
+};
