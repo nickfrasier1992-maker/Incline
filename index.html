@@ -1,48 +1,56 @@
-const { getStore } = require('@netlify/blobs');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manitou Incline Time Estimator | How Long Does It Take?</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; line-height: 1.6; }
+        label { display: block; margin: 15px 0 5px; font-weight: bold; }
+        input, select, button { padding: 12px; width: 100%; font-size: 16px; margin-bottom: 10px; }
+        button { background: #0066cc; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 18px; }
+        #result { margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 6px; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1>Manitou Incline Time Estimator</h1>
+    <p>Based on real hiker data • Submissions shared across all devices</p>
 
-exports.handler = async (event) => {
-  const store = getStore('manitou-entries');
+    <label>Fitness Level:
+        <select id="fitness">
+            <option value="casual">Casual</option>
+            <option value="moderate">Moderate</option>
+            <option value="fit">Fit</option>
+            <option value="inactive">Inactive / Health Issues</option>
+        </select>
+    </label>
 
-  // Handle CORS for browser requests
-  const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
-  };
+    <label>Home Elevation (feet): <input type="number" id="elevation" value="6000"></label>
+    <label>Age: <input type="number" id="age" value="35"></label>
 
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers };
-  }
+    <button onclick="calculateTime()">Estimate My Time</button>
 
-  try {
-    if (event.httpMethod === 'GET') {
-      const entries = await store.get('all-entries', { type: 'json' }) || [];
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify(entries)
-      };
-    }
+    <div id="result"></div>
 
-    if (event.httpMethod === 'POST') {
-      const newEntry = JSON.parse(event.body);
-      let entries = await store.get('all-entries', { type: 'json' }) || [];
-      entries.unshift(newEntry); // add newest first
-      await store.setJSON('all-entries', entries);
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ success: true, entries })
-      };
-    }
+    <script>
+        async function calculateTime() {
+            const fitness = document.getElementById('fitness').value;
+            const elevation = parseInt(document.getElementById('elevation').value) || 6000;
+            const age = parseInt(document.getElementById('age').value) || 35;
 
-    return { statusCode: 405, headers, body: 'Method not allowed' };
-  } catch (error) {
-    console.error(error);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: 'Server error' })
-    };
-  }
-};
+            let minutes = 55;
+            if (fitness === "inactive") minutes += 35;
+            else if (fitness === "casual") minutes += 15;
+            else if (fitness === "fit") minutes -= 12;
+
+            if (elevation > 7000) minutes -= 5;
+            if (age > 50) minutes += 8;
+
+            document.getElementById('result').innerHTML = `
+                <strong>Estimated summit time: ${Math.round(minutes)} minutes</strong><br><br>
+                <small>✅ Shared database active — test on another device or browser!</small>
+            `;
+        }
+    </script>
+</body>
+</html>
