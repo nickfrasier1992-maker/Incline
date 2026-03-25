@@ -3,7 +3,6 @@ const { getStore } = require('@netlify/blobs');
 exports.handler = async (event) => {
   const store = getStore('manitou-entries');
 
-  // Handle CORS for browser requests
   const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -17,32 +16,20 @@ exports.handler = async (event) => {
   try {
     if (event.httpMethod === 'GET') {
       const entries = await store.get('all-entries', { type: 'json' }) || [];
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify(entries)
-      };
+      return { statusCode: 200, headers, body: JSON.stringify(entries) };
     }
 
     if (event.httpMethod === 'POST') {
       const newEntry = JSON.parse(event.body);
       let entries = await store.get('all-entries', { type: 'json' }) || [];
-      entries.unshift(newEntry); // add newest first
+      entries.unshift(newEntry);
       await store.setJSON('all-entries', entries);
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({ success: true, entries })
-      };
+      return { statusCode: 200, headers, body: JSON.stringify({ success: true, entries }) };
     }
 
     return { statusCode: 405, headers, body: 'Method not allowed' };
   } catch (error) {
     console.error(error);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: 'Server error' })
-    };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: 'Server error' }) };
   }
 };
