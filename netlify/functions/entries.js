@@ -1,25 +1,48 @@
-const { getStore } = require("@netlify/blobs");
+const { getStore } = require('@netlify/blobs');
+
 exports.handler = async (event) => {
-  const headers = {"Access-Control-Allow-Origin":"*","Access-Control-Allow-Headers":"Content-Type","Content-Type":"application/json"};
-  if (event.httpMethod === "OPTIONS") return {statusCode:200,headers,body:""};
-  const store = getStore("manitou-entries");
-  if (event.httpMethod === "GET") {
-    try {
-      let entries = [];
-      try { const raw = await store.get("all-entries"); if (raw) entries = JSON.parse(raw); } catch(e) {}
-      return {statusCode:200,headers,body:JSON.stringify(entries)};
-    } catch(err) { return {statusCode:500,headers,body:JSON.stringify({error:err.message})}; }
+  const store = getStore('manitou-entries');
+
+  // Handle CORS for browser requests
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'
+  };
+
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers };
   }
-  if (event.httpMethod === "POST") {
-    try {
-      const entry = JSON.parse(event.body);
-      let entries = [];
-      try { const raw = await store.get("all-entries"); if (raw) entries = JSON.parse(raw); } catch(e) {}
-      entry.ts = new Date().toISOString();
-      entries.push(entry);
-      await store.set("all-entries", JSON.stringify(entries));
-      return {statusCode:200,headers,body:JSON.stringify({success:true,total:entries.length})};
-    } catch(err) { return {statusCode:500,headers,body:JSON.stringify({error:err.message})}; }
+
+  try {
+    if (event.httpMethod === 'GET') {
+      const entries = await store.get('all-entries', { type: 'json' }) || [];
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify(entries)
+      };
+    }
+
+    if (event.httpMethod === 'POST') {
+      const newEntry = JSON.parse(event.body);
+      let entries = await store.get('all-entries', { type: 'json' }) || [];
+      entries.unshift(newEntry); // add newest first
+      await store.setJSON('all-entries', entries);
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ success: true, entries })
+      };
+    }
+
+    return { statusCode: 405, headers, body: 'Method not allowed' };
+  } catch (error) {
+    console.error(error);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: 'Server error' })
+    };
   }
-  return {statusCode:405,headers,body:"Method not allowed"};
 };
