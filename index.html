@@ -1,106 +1,661 @@
+cat > /mnt/user-data/outputs/part1.html << 'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Manitou Incline Time Estimator | How Long Does It Take?</title>
-
-<!-- ── SEO ── -->
-<meta name="description" content="Find out how long the Manitou Incline will take YOU — based on real hiker data. Enter your fitness level, elevation, and age for a personalized summit time estimate.">
-<meta name="keywords" content="Manitou Incline time, how long does Manitou Incline take, Manitou Incline estimator, Manitou Incline difficulty, Colorado Springs hiking, Pikes Peak hiking time, Manitou Incline beginner, Manitou Incline tips">
+<meta name="description" content="Find out how long the Manitou Incline will take YOU — based on real hiker data. Includes sunrise and sunset start time calculator.">
+<meta name="keywords" content="Manitou Incline time, how long does Manitou Incline take, Manitou Incline estimator, Manitou Incline sunrise, Colorado Springs hiking">
 <meta name="robots" content="index, follow">
-<meta name="author" content="Manitou Incline Community">
-<link rel="canonical" href="https://inclineestimator.netlify.app/">
-
-<!-- ── Open Graph (Facebook, iMessage previews) ── -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://inclineestimator.netlify.app/">
 <meta property="og:title" content="Manitou Incline Time Estimator | How Long Will It Take You?">
-<meta property="og:description" content="Real estimates from real hikers. Enter your profile and find out how long the Manitou Incline will take you to summit — personalized to your fitness, age, and elevation.">
-<meta property="og:image" content="https://manitouinclineestimator.com/preview.jpg">
-
-<!-- ── Twitter/X card ── -->
+<meta property="og:description" content="Real estimates from real hikers plus sunrise/sunset start time calculator.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Manitou Incline Time Estimator">
-<meta name="twitter:description" content="How long will the Manitou Incline take you? Find out with real community hiker data.">
-
-<!-- ── Structured Data (Google rich results) ── -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Manitou Incline Time Estimator",
-  "description": "A community-powered tool that estimates how long it will take you to summit the Manitou Incline based on your fitness level, age, home elevation, and altitude acclimation.",
-  "url": "https://inclineestimator.netlify.app/",
-  "applicationCategory": "SportsApplication",
-  "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "about": {
-    "@type": "TouristAttraction",
-    "name": "Manitou Incline",
-    "description": "A popular hiking trail near Manitou Springs, Colorado with 2,744 feet of elevation gain over less than one mile.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Manitou Springs",
-      "addressRegion": "CO",
-      "addressCountry": "US"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "38.8573",
-      "longitude": "-104.9167"
-    }
-  }
-}
-</script>
-
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <style>
-    body { font-family: system-ui, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; line-height: 1.6; }
-    label { display: block; margin: 15px 0 5px; font-weight: bold; }
-    input, select, button { padding: 12px; width: 100%; font-size: 16px; margin-bottom: 10px; }
-    button { background: #0066cc; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 18px; }
-    #result { margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 6px; font-size: 18px; }
+:root{--rock:#1a1714;--stone:#2d2822;--trail:#4a3f35;--dust:#8c7b6b;--sky:#e8ddd0;--peak:#f5f0e8;--sun:#e8a445;--orange:#d4622a;--green:#4a7c59;--red:#c0392b;--blue:#3a6ea8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{background:var(--rock);color:var(--peak);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 120% 60% at 50% 100%,#3d2e1e 0%,transparent 60%),linear-gradient(180deg,#0d0b09 0%,#1a1714 40%,#201a14 100%);z-index:0;pointer-events:none;}
+.nav{position:sticky;top:0;z-index:100;background:rgba(13,11,9,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08);display:flex;}
+.nav-tab{flex:1;padding:14px 4px;text-align:center;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--dust);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;}
+.nav-tab.active{color:var(--sun);border-bottom-color:var(--sun);}
+.page{display:none;position:relative;z-index:1;}
+.page.active{display:block;}
+.container{max-width:520px;margin:0 auto;padding:0 16px 60px;}
+header{text-align:center;padding:32px 0 24px;position:relative;}
+.elevation-line{position:absolute;bottom:0;left:-16px;right:-16px;height:1px;background:linear-gradient(90deg,transparent,var(--dust) 30%,var(--sun) 50%,var(--dust) 70%,transparent);opacity:0.5;}
+.tag{font-size:11px;font-weight:600;letter-spacing:0.2em;color:var(--sun);text-transform:uppercase;margin-bottom:10px;}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,12vw,68px);line-height:0.9;letter-spacing:0.02em;color:var(--peak);}
+h1 span{color:var(--sun);}
+.subtitle{font-size:13px;color:var(--dust);font-weight:300;margin-top:10px;line-height:1.5;}
+.data-badge{display:inline-flex;align-items:center;gap:6px;margin-top:14px;padding:5px 12px;background:rgba(232,164,69,0.12);border:1px solid rgba(232,164,69,0.3);border-radius:20px;font-size:11px;color:var(--sun);}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--sun);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.form-section{margin-top:24px;}
+.question{margin-bottom:20px;animation:fadeUp 0.4s ease both;}
+.question:nth-child(1){animation-delay:0.05s}.question:nth-child(2){animation-delay:0.1s}.question:nth-child(3){animation-delay:0.15s}.question:nth-child(4){animation-delay:0.2s}.question:nth-child(5){animation-delay:0.25s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.q-label{font-size:11px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--dust);margin-bottom:9px;}
+.options{display:flex;flex-direction:column;gap:7px;}
+.options-row{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.option{display:flex;align-items:center;gap:11px;padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:10px;cursor:pointer;transition:all 0.18s;font-size:13px;color:var(--sky);font-weight:400;text-align:left;width:100%;}
+.option:hover{background:rgba(232,164,69,0.08);border-color:rgba(232,164,69,0.3);}
+.option.selected{background:rgba(232,164,69,0.15);border-color:var(--sun);color:var(--peak);}
+.option-radio{width:15px;height:15px;border-radius:50%;border:2px solid var(--dust);flex-shrink:0;transition:all 0.18s;display:flex;align-items:center;justify-content:center;}
+.option.selected .option-radio{border-color:var(--sun);background:var(--sun);}
+.option.selected .option-radio::after{content:'';width:5px;height:5px;border-radius:50%;background:var(--rock);}
+.option-icon{margin-left:auto;font-size:15px;opacity:0.6;}
+.primary-btn{width:100%;padding:17px;margin-top:6px;background:linear-gradient(135deg,var(--sun),var(--orange));border:none;border-radius:12px;font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:0.1em;color:var(--rock);cursor:pointer;transition:all 0.2s;}
+.primary-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,164,69,0.3);}
+.primary-btn:disabled{opacity:0.35;cursor:not-allowed;transform:none;}
+.secondary-btn{width:100%;padding:13px;background:transparent;border:1px solid rgba(255,255,255,0.15);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--dust);cursor:pointer;transition:all 0.2s;}
+.secondary-btn:hover{border-color:var(--dust);color:var(--sky);}
+.green-btn{width:100%;padding:17px;margin-top:6px;background:linear-gradient(135deg,#4a7c59,#3a6347);border:none;border-radius:12px;font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:0.1em;color:var(--peak);cursor:pointer;transition:all 0.2s;}
+.green-btn:disabled{opacity:0.35;cursor:not-allowed;}
+.result-card{display:none;margin-top:26px;padding:26px 22px;background:rgba(255,255,255,0.04);border:1px solid rgba(232,164,69,0.25);border-radius:16px;position:relative;overflow:hidden;}
+.result-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--orange),var(--sun),var(--orange));}
+.result-card.show{display:block;}
+.result-label{font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--dust);margin-bottom:4px;}
+.result-time{font-family:'Bebas Neue',sans-serif;font-size:clamp(50px,18vw,78px);color:var(--sun);line-height:1;}
+.result-unit{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--dust);margin-left:3px;}
+.result-range{font-size:13px;color:var(--dust);margin-top:5px;}
+.result-range strong{color:var(--sky);}
+.result-meta{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.meta-item{display:flex;flex-direction:column;gap:2px;}
+.meta-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dust);}
+.meta-value{font-size:14px;font-weight:500;color:var(--sky);}
+.insight{margin-top:14px;padding:11px 13px;background:rgba(74,124,89,0.15);border:1px solid rgba(74,124,89,0.3);border-radius:8px;font-size:13px;color:#a8d4b4;line-height:1.5;}
+.weather-note{margin-top:10px;padding:10px 13px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;font-size:12px;color:var(--dust);line-height:1.5;}
+.sparse-note{margin-top:9px;font-size:11px;color:var(--dust);font-style:italic;line-height:1.5;}
+.sun-card{margin-top:14px;padding:16px;background:rgba(232,164,69,0.07);border:1px solid rgba(232,164,69,0.2);border-radius:12px;}
+.sun-card-title{font-size:11px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--sun);margin-bottom:12px;}
+.sun-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:8px;margin-bottom:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);}
+.sun-row.next{background:rgba(232,164,69,0.12);border-color:rgba(232,164,69,0.35);}
+.sun-row-left{display:flex;align-items:center;gap:10px;}
+.sun-icon{font-size:20px;}
+.sun-label{font-size:12px;color:var(--dust);}
+.sun-time-actual{font-size:11px;color:var(--trail);margin-top:1px;}
+.sun-depart{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--sun);}
+.sun-depart-sub{font-size:10px;color:var(--dust);text-align:right;}
+.next-badge{display:inline-block;background:var(--sun);color:var(--rock);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:2px 6px;border-radius:8px;margin-left:6px;vertical-align:middle;}
+.sun-loading{font-size:12px;color:var(--dust);text-align:center;padding:10px;}
+.result-actions{display:flex;flex-direction:column;gap:8px;margin-top:14px;}
+.report-cta{width:100%;padding:14px;background:rgba(232,164,69,0.1);border:1px solid rgba(232,164,69,0.4);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--sun);cursor:pointer;transition:all 0.2s;text-align:center;}
+.share-btn{width:100%;padding:14px;background:rgba(58,110,168,0.15);border:1px solid rgba(58,110,168,0.4);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:#8ba3d4;cursor:pointer;transition:all 0.2s;text-align:center;}
+.submit-header{text-align:center;padding:32px 0 24px;position:relative;}
+.submit-header h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,10vw,54px);line-height:1;color:var(--peak);}
+.submit-header h2 span{color:var(--sun);}
+.submit-header p{font-size:13px;color:var(--dust);margin-top:8px;line-height:1.5;}
+.success-card{display:none;margin-top:20px;padding:28px 22px;text-align:center;background:rgba(74,124,89,0.12);border:1px solid rgba(74,124,89,0.35);border-radius:16px;}
+.success-card.show{display:block;}
+.success-icon{font-size:40px;margin-bottom:12px;}
+.success-title{font-family:'Bebas Neue',sans-serif;font-size:32px;color:#a8d4b4;letter-spacing:0.05em;}
+.success-sub{font-size:13px;color:var(--dust);margin-top:6px;line-height:1.5;}
+.admin-header{text-align:center;padding:32px 0 20px;}
+.admin-header h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,9vw,48px);color:var(--peak);}
+.admin-header h2 span{color:var(--sun);}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;}
+.stat-card{padding:16px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--sun);line-height:1;}
+.stat-label{font-size:11px;color:var(--dust);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px;}
+.leaderboard h3,.entries-list h3,.export-box h3{font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--dust);margin-bottom:12px;}
+.lb-item{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:7px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;}
+.lb-rank{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--trail);width:28px;flex-shrink:0;}
+.lb-rank.gold{color:#ffd700;}.lb-rank.silver{color:#c0c0c0;}.lb-rank.bronze{color:#cd7f32;}
+.lb-time{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--sun);}
+.lb-min{font-size:11px;color:var(--dust);margin-left:2px;}
+.lb-profile{font-size:11px;color:var(--dust);margin-left:auto;text-align:right;line-height:1.4;}
+.export-box{margin-top:20px;padding:18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;}
+.export-textarea{width:100%;height:140px;padding:12px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--sky);font-family:monospace;font-size:10px;resize:none;outline:none;line-height:1.5;}
+.copy-btn{width:100%;margin-top:10px;padding:12px;background:rgba(232,164,69,0.12);border:1px solid rgba(232,164,69,0.3);border-radius:8px;font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--sun);cursor:pointer;}
+.entries-list{margin-top:20px;}
+.entry-item{padding:12px 14px;margin-bottom:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:10px;font-size:12px;color:var(--sky);line-height:1.6;}
+.entry-time{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--sun);}
+.entry-meta{color:var(--dust);font-size:11px;}
+.entry-source{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;}
+.entry-source.community{background:rgba(232,164,69,0.15);color:var(--sun);}
+.empty-state{text-align:center;padding:40px 20px;color:var(--dust);font-size:13px;line-height:1.6;}
+.divider{height:1px;background:rgba(255,255,255,0.06);margin:24px 0;}
+.admin-lock{text-align:center;padding:40px 20px;}
+.admin-lock p{font-size:13px;color:var(--dust);margin-bottom:16px;}
+.pin-input{width:100%;padding:14px 16px;text-align:center;letter-spacing:0.3em;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:var(--peak);font-size:20px;outline:none;font-family:'DM Sans',sans-serif;-webkit-appearance:none;}
+.pin-input:focus{border-color:var(--sun);}
+.pin-error{color:var(--red);font-size:12px;margin-top:8px;display:none;}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--trail);border-top-color:var(--sun);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-note{padding:12px 14px;background:rgba(192,57,43,0.12);border:1px solid rgba(192,57,43,0.3);border-radius:8px;font-size:12px;color:#e8a09a;margin-top:10px;}
+.time-input-wrap{position:relative;}
+.time-input{width:100%;padding:14px 50px 14px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:var(--peak);font-family:'DM Sans',sans-serif;font-size:18px;font-weight:500;outline:none;transition:border-color 0.2s;-webkit-appearance:none;}
+.time-input:focus{border-color:var(--sun);}
+.time-input::placeholder{color:var(--trail);font-size:14px;}
+.time-unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--dust);}
 </style>
 </head>
 <body>
-    <h1>Manitou Incline Time Estimator</h1>
-    <p>Based on real hiker data • Submissions shared across all devices</p>
+<nav class="nav">
+  <button class="nav-tab active" onclick="showPage('estimate')">⛰ Estimate</button>
+  <button class="nav-tab" onclick="showPage('submit')">📍 Report</button>
+  <button class="nav-tab" onclick="showPage('leaders')">🏆 Top Times</button>
+  <button class="nav-tab" onclick="showPage('admin')">🔒 Admin</button>
+</nav>
+<!-- PAGE 1 ESTIMATE -->
+<div class="page active" id="page-estimate"><div class="container">
+  <header>
+    <div class="tag">Manitou Springs, CO · 2,744 ft gain</div>
+    <h1>INCLINE<br><span>ESTIMATOR</span></h1>
+    <p class="subtitle">Real estimates from real hikers.<br>Community-powered, not algorithm-guessed.</p>
+    <div class="data-badge"><span class="dot"></span><span id="entry-count-badge">Loading...</span></div>
+    <div class="elevation-line"></div>
+  </header>
+  <div class="form-section" id="est-form">
+    <div class="question"><div class="q-label">Where do you normally live?</div>
+      <div class="options" id="e-elevation">
+        <button class="option" data-val="below1000" onclick="sel(this,'e-elevation')"><div class="option-radio"></div>Below 1,000 ft — sea level<span class="option-icon">🌊</span></button>
+        <button class="option" data-val="mid" onclick="sel(this,'e-elevation')"><div class="option-radio"></div>1,000 – 5,000 ft<span class="option-icon">🌄</span></button>
+        <button class="option" data-val="above5000" onclick="sel(this,'e-elevation')"><div class="option-radio"></div>Above 5,000 ft<span class="option-icon">🏔️</span></button>
+      </div>
+    </div>
+    <div class="question"><div class="q-label">Acclimated to altitude?</div>
+      <div class="options" id="e-acclimated">
+        <button class="option" data-val="yes" onclick="sel(this,'e-acclimated')"><div class="option-radio"></div>Yes — live above 5,000 ft<span class="option-icon">✅</span></button>
+        <button class="option" data-val="partial" onclick="sel(this,'e-acclimated')"><div class="option-radio"></div>Partially — recently arrived<span class="option-icon">🛫</span></button>
+        <button class="option" data-val="no" onclick="sel(this,'e-acclimated')"><div class="option-radio"></div>No — low elevation<span class="option-icon">❌</span></button>
+      </div>
+    </div>
+    <div class="question"><div class="q-label">Age group</div>
+      <div class="options options-row" id="e-age">
+        <button class="option" data-val="under30" onclick="sel(this,'e-age')"><div class="option-radio"></div>Under 30</button>
+        <button class="option" data-val="3050" onclick="sel(this,'e-age')"><div class="option-radio"></div>30 – 50</button>
+        <button class="option" data-val="50plus" onclick="sel(this,'e-age')"><div class="option-radio"></div>50+</button>
+      </div>
+    </div>
+    <div class="question"><div class="q-label">Fitness level</div>
+      <div class="options" id="e-fitness">
+        <button class="option" data-val="inactive" onclick="sel(this,'e-fitness')"><div class="option-radio"></div>Inactive / Health issues<span class="option-icon">🩺</span></button>
+        <button class="option" data-val="casual" onclick="sel(this,'e-fitness')"><div class="option-radio"></div>Casual — light activity<span class="option-icon">🚶</span></button>
+        <button class="option" data-val="active" onclick="sel(this,'e-fitness')"><div class="option-radio"></div>Active — regular exercise<span class="option-icon">🏃</span></button>
+        <button class="option" data-val="veryactive" onclick="sel(this,'e-fitness')"><div class="option-radio"></div>Very Active — athlete level<span class="option-icon">⚡</span></button>
+      </div>
+    </div>
+    <div class="question"><div class="q-label">First time or repeat?</div>
+      <div class="options options-row" id="e-firsttime">
+        <button class="option" data-val="first" onclick="sel(this,'e-firsttime')"><div class="option-radio"></div>First time</button>
+        <button class="option" data-val="repeat" onclick="sel(this,'e-firsttime')"><div class="option-radio"></div>Repeat</button>
+      </div>
+    </div>
+    <button class="primary-btn" id="est-btn" onclick="runEstimate()" disabled>ESTIMATE MY TIME →</button>
+  </div>
+  <div class="result-card" id="est-result">
+    <div class="result-label">Your estimated summit time</div>
+    <div><span class="result-time" id="res-median">—</span><span class="result-unit">MIN</span></div>
+    <div class="result-range" id="res-range"></div>
+    <div class="result-meta">
+      <div class="meta-item"><span class="meta-label">Based on</span><span class="meta-value" id="res-n">—</span></div>
+      <div class="meta-item"><span class="meta-label">Match quality</span><span class="meta-value" id="res-match">—</span></div>
+    </div>
+    <div class="insight" id="res-insight"></div>
+    <div class="weather-note">⛅ Inclement weather, heat, or snow can significantly affect your time. Always check conditions before heading out.</div>
+    <div class="sparse-note" id="res-sparse" style="display:none"></div>
+    <div class="sun-card">
+      <div class="sun-card-title">🌅 When should I leave to make it by sunrise or sunset?</div>
+      <div id="sun-times"><div class="sun-loading"><span class="spinner"></span>Fetching today's sun times...</div></div>
+    </div>
+    <div class="result-actions">
+      <button class="report-cta" onclick="goReport()">🏁 Done hiking? Report your actual time →</button>
+      <button class="share-btn" onclick="shareResult()">📲 Share my estimate on Facebook</button>
+      <button class="secondary-btn" onclick="resetEstimate()">← Try a different profile</button>
+    </div>
+  </div>
+</div></div>
+<!-- PAGE 2 SUBMIT -->
+<div class="page" id="page-submit"><div class="container">
+  <div class="submit-header">
+    <div class="tag">Help the community</div>
+    <h2>REPORT YOUR<br><span>HIKE TIME</span></h2>
+    <p>Every entry makes estimates better for the next hiker. Takes 30 seconds.</p>
+    <div class="elevation-line"></div>
+  </div>
+  <div id="sub-form"><div class="form-section">
+    <div class="question"><div class="q-label">Your actual time to summit</div>
+      <div class="time-input-wrap">
+        <input class="time-input" type="number" id="sub-time" min="1" max="600" placeholder="e.g. 85" oninput="checkSubForm()">
+        <span class="time-unit">min</span>
+      </div>
+    </div>
+    <div class="question"><div class="q-label">Where do you normally live?</div>
+      <div class="options" id="s-elevation">
+        <button class="option" data-val="below1000" onclick="sel(this,'s-elevation')"><div class="option-radio"></div>Below 1,000 ft<span class="option-icon">🌊</span></button>
+        <button class="option" data-val="mid" onclick="sel(this,'s-elevation')"><div class="option-radio"></div>1,000 – 5,000 ft<span class="option-icon">🌄</span></button>
+        <button class="option" data-val="above5000" onclick="sel(this,'s-elevation')"><div class="option-radio"></div>Above 5,000 ft<span class="option-icon">🏔️</span></button>
+      </div>
+    </div>
+    <div class="question"><div class="q-label">Acclimated to altitude?</div>
+      <div class="options" id="s-acclimated">
+        <button class="option" data-val="yes" onclick="sel(this,'s-acclimated')"><div class="option-radio"></div>Yes — live above 5,000 ft<span class="option-icon">✅</span></button>
+        <button class="option" data-val="partial" onclick="sel(this,'s-acclimated')"><div class="option-radio"></div>Partially — recently arrived<span class="option-icon">🛫</span></button>
+        <button class="option" data-val="no" onclick="sel(this,'s-acclimated')"><div class="option-radio"></div>No — low elevation<span class="option-icon">❌</span></button>
+      </div>
+    </div>
+    <div class="question"><div class="q-label">Age group</div>
+      <div class="options options-row" id="s-age">
+        <button class="option" data-val="under30" onclick="sel(this,'s-age')"><div class="option-radio"></div>Under 30</button>
+        <button class="option" data-val="3050" onclick="sel(this,'s-age')"><div class="option-radio"></div>30 – 50</button>
+        <button class="option" data-val="50plus" onclick="sel(this,'s-age')"><div class="option-radio"></div>50+</button>
+      </div>
+    </div>
+    <div class="question"><div class="q-label">Fitness level</div>
+      <div class="options" id="s-fitness">
+        <button class="option" data-val="inactive" onclick="sel(this,'s-fitness')"><div class="option-radio"></div>Inactive / Health issues<span class="option-icon">🩺</span></button>
+        <button class="option" data-val="casual" onclick="sel(this,'s-fitness')"><div class="option-radio"></div>Casual — light activity<span class="option-icon">🚶</span></button>
+        <button class="option" data-val="active" onclick="sel(this,'s-fitness')"><div class="option-radio"></div>Active — regular exercise<span class="option-icon">🏃</span></button>
+        <button class="option" data-val="veryactive" onclick="sel(this,'s-fitness')"><div class="option-radio"></div>Very Active — athlete level<span class="option-icon">⚡</span></button>
+      </div>
+    </div>
+    <div class="question"><div class="q-label">First time or repeat?</div>
+      <div class="options options-row" id="s-firsttime">
+        <button class="option" data-val="first" onclick="sel(this,'s-firsttime')"><div class="option-radio"></div>First time</button>
+        <button class="option" data-val="repeat" onclick="sel(this,'s-firsttime')"><div class="option-radio"></div>Repeat</button>
+      </div>
+    </div>
+    <div class="question"><div class="q-label">Total time resting?</div>
+      <div class="options options-row" id="s-rest">
+        <button class="option" data-val="0-10 min" onclick="sel(this,'s-rest')"><div class="option-radio"></div>0–10 min</button>
+        <button class="option" data-val="10-30 min" onclick="sel(this,'s-rest')"><div class="option-radio"></div>10–30 min</button>
+        <button class="option" data-val="30-60 min" onclick="sel(this,'s-rest')"><div class="option-radio"></div>30–60 min</button>
+        <button class="option" data-val="60+ min" onclick="sel(this,'s-rest')"><div class="option-radio"></div>60+ min</button>
+      </div>
+    </div>
+    <div id="sub-error" class="error-note" style="display:none">Could not save. Please try again.</div>
+    <button class="green-btn" id="sub-btn" onclick="submitEntry()" disabled>SUBMIT MY TIME 🏔️</button>
+  </div></div>
+  <div class="success-card" id="sub-success">
+    <div class="success-icon">🎉</div>
+    <div class="success-title">YOU MADE IT!</div>
+    <div class="success-sub">Your time is now in the shared community database. Every hiker on every device benefits from your entry.</div>
+    <div style="margin-top:20px">
+      <button class="primary-btn" onclick="resetSubmit()">Submit another hike</button>
+      <button class="secondary-btn" style="margin-top:8px" onclick="showPage('estimate')">← Back to estimator</button>
+    </div>
+  </div>
+</div></div>
+<!-- PAGE 3 LEADERBOARD -->
+<div class="page" id="page-leaders"><div class="container">
+  <div class="admin-header">
+    <div class="tag">Community records</div>
+    <h2>TOP <span>TIMES</span></h2>
+    <p style="font-size:13px;color:var(--dust);margin-top:8px">Fastest reported summit times from the community.</p>
+  </div>
+  <div id="lb-content" style="margin-top:20px"><span class="spinner"></span>Loading...</div>
+</div></div>
+<!-- PAGE 4 ADMIN -->
+<div class="page" id="page-admin"><div class="container">
+  <div class="admin-header"><div class="tag">Data overview</div><h2>ADMIN <span>PANEL</span></h2></div>
+  <div id="admin-lock"><div class="admin-lock">
+    <p>Enter your admin PIN</p>
+    <input class="pin-input" type="password" id="pin-input" placeholder="••••" maxlength="6" oninput="checkPin()">
+    <div class="pin-error" id="pin-error">Incorrect PIN</div>
+  </div></div>
+  <div id="admin-content" style="display:none">
+    <div class="stats-grid" id="stats-grid"></div>
+    <div class="divider"></div>
+    <div class="export-box"><h3>Export community entries (CSV)</h3>
+      <textarea class="export-textarea" id="export-csv" readonly></textarea>
+      <button class="copy-btn" onclick="copyCSV()">📋 Copy to clipboard</button>
+    </div>
+    <div class="divider"></div>
+    <div class="entries-list"><h3>Community submissions (<span id="community-count">0</span>)</h3>
+      <div id="entries-container"></div>
+    </div>
+  </div>
+</div></div>
+EOF
+echo "Part 1 done: $(wc -c < /mnt/user-data/outputs/part1.html) bytes"cat > /mnt/user-data/outputs/part2.html << 'EOF'
+<script>
+// ═══════════════════════════════════════
+// ORIGINAL DATASET (94 entries)
+// ═══════════════════════════════════════
+const ORIGINAL=[
+{t:54,e:'below1000',a:'no',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
+{t:70,e:'below1000',a:'partial',ag:'3050',f:'active',ft:'first',r:'0-10 min'},
+{t:72,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'10-30 min'},
+{t:120,e:'above5000',a:'yes',ag:'under30',f:'casual',ft:'repeat',r:'30-60 min'},
+{t:120,e:'below1000',a:'partial',ag:'3050',f:'active',ft:'first',r:'30-60 min'},
+{t:70,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
+{t:167,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'30-60 min'},
+{t:38,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
+{t:90,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
+{t:64,e:'below1000',a:'partial',ag:'3050',f:'active',ft:'first',r:'10-30 min'},
+{t:66,e:'mid',a:'no',ag:'3050',f:'active',ft:'first',r:'0-10 min'},
+{t:75,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
+{t:120,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'first',r:'0-10 min'},
+{t:105,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'first',r:'10-30 min'},
+{t:131,e:'below1000',a:'no',ag:'50plus',f:'casual',ft:'first',r:'30-60 min'},
+{t:60,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
+{t:67,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
+{t:61,e:'mid',a:'no',ag:'3050',f:'active',ft:'first',r:'0-10 min'},
+{t:110,e:'mid',a:'partial',ag:'3050',f:'active',ft:'first',r:'10-30 min'},
+{t:80,e:'above5000',a:'yes',ag:'3050',f:'veryactive',ft:'first',r:'10-30 min'},
+{t:60,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
+{t:30,e:'above5000',a:'yes',ag:'50plus',f:'veryactive',ft:'repeat',r:'0-10 min'},
+{t:60,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'10-30 min'},
+{t:77,e:'mid',a:'partial',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
+{t:80,e:'below1000',a:'no',ag:'50plus',f:'veryactive',ft:'first',r:'0-10 min'},
+{t:90,e:'below1000',a:'no',ag:'under30',f:'veryactive',ft:'first',r:'10-30 min'},
+{t:52,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
+{t:68,e:'above5000',a:'yes',ag:'50plus',f:'veryactive',ft:'repeat',r:'0-10 min'},
+{t:35,e:'above5000',a:'yes',ag:'3050',f:'veryactive',ft:'repeat',r:'0-10 min'},
+{t:63,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'10-30 min'},
+{t:55,e:'below1000',a:'partial',ag:'3050',f:'active',ft:'first',r:'0-10 min'},
+{t:76,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'first',r:'10-30 min'},
+{t:73,e:'below1000',a:'no',ag:'3050',f:'active',ft:'repeat',r:'10-30 min'},
+{t:52,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
+{t:80,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'first',r:'10-30 min'},
+{t:70,e:'above5000',a:'yes',ag:'under30',f:'active',ft:'first',r:'10-30 min'},
+{t:30,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
+{t:135,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'30-60 min'},
+{t:41,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
+{t:47,e:'above5000',a:'partial',ag:'under30',f:'active',ft:'repeat',r:'0-10 min'},
+{t:58,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'first',r:'0-10 min'},
+{t:39,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
+{t:42,e:'above5000',a:'yes',ag:'under30',f:'veryactive',ft:'repeat',r:'0-10 min'},
+{t:53,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'10-30 min'},
+{t:160,e:'above5000',a:'partial',ag:'3050',f:'casual',ft:'first',r:'60+ min'},
+{t:120,e:'below1000',a:'no',ag:'3050',f:'casual',ft:'first',r:'30-60 min'},
+{t:85,e:'below1000',a:'partial',ag:'50plus',f:'veryactive',ft:'first',r:'0-10 min'},
+{t:58,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'10-30 min'},
+{t:180,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'first',r:'0-10 min'},
+{t:105,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'10-30 min'},
+{t:120,e:'below1000',a:'partial',ag:'3050',f:'casual',ft:'first',r:'10-30 min'},
+{t:45,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
+{t:60,e:'above5000',a:'no',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
+{t:35,e:'above5000',a:'yes',ag:'3050',f:'veryactive',ft:'repeat',r:'0-10 min'},
+{t:29,e:'below1000',a:'no',ag:'3050',f:'veryactive',ft:'repeat',r:'0-10 min'},
+{t:210,e:'above5000',a:'yes',ag:'50plus',f:'casual',ft:'first',r:'10-30 min'},
+{t:29,e:'below1000',a:'no',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
+{t:42,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
+{t:180,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'first',r:'60+ min'},
+{t:90,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
+{t:90,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'first',r:'0-10 min'},
+{t:46,e:'below1000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
+{t:60,e:'above5000',a:'no',ag:'3050',f:'active',ft:'first',r:'0-10 min'},
+{t:60,e:'below1000',a:'no',ag:'50plus',f:'casual',ft:'first',r:'0-10 min'},
+{t:45,e:'above5000',a:'yes',ag:'under30',f:'active',ft:'repeat',r:'0-10 min'},
+{t:59,e:'above5000',a:'yes',ag:'under30',f:'veryactive',ft:'repeat',r:'0-10 min'},
+{t:53,e:'mid',a:'partial',ag:'3050',f:'active',ft:'first',r:'0-10 min'},
+{t:28,e:'above5000',a:'yes',ag:'3050',f:'veryactive',ft:'repeat',r:'0-10 min'},
+{t:155,e:'below1000',a:'no',ag:'3050',f:'casual',ft:'first',r:'30-60 min'},
+{t:140,e:'below1000',a:'no',ag:'under30',f:'casual',ft:'first',r:'10-30 min'},
+{t:175,e:'below1000',a:'no',ag:'50plus',f:'casual',ft:'first',r:'30-60 min'},
+{t:130,e:'below1000',a:'partial',ag:'under30',f:'casual',ft:'first',r:'10-30 min'},
+{t:165,e:'mid',a:'no',ag:'50plus',f:'casual',ft:'first',r:'30-60 min'},
+{t:85,e:'mid',a:'no',ag:'under30',f:'active',ft:'first',r:'10-30 min'},
+{t:70,e:'mid',a:'no',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
+{t:110,e:'mid',a:'no',ag:'50plus',f:'active',ft:'first',r:'10-30 min'},
+{t:95,e:'mid',a:'partial',ag:'3050',f:'active',ft:'first',r:'10-30 min'},
+{t:55,e:'mid',a:'no',ag:'under30',f:'veryactive',ft:'repeat',r:'0-10 min'},
+{t:75,e:'below1000',a:'no',ag:'under30',f:'active',ft:'first',r:'10-30 min'},
+{t:55,e:'below1000',a:'partial',ag:'under30',f:'active',ft:'first',r:'0-10 min'},
+{t:48,e:'below1000',a:'no',ag:'under30',f:'veryactive',ft:'repeat',r:'0-10 min'},
+{t:95,e:'below1000',a:'no',ag:'under30',f:'casual',ft:'first',r:'10-30 min'},
+{t:65,e:'below1000',a:'no',ag:'3050',f:'veryactive',ft:'first',r:'0-10 min'},
+{t:72,e:'below1000',a:'partial',ag:'50plus',f:'veryactive',ft:'first',r:'0-10 min'},
+{t:58,e:'mid',a:'partial',ag:'50plus',f:'veryactive',ft:'first',r:'0-10 min'},
+{t:100,e:'above5000',a:'yes',ag:'50plus',f:'casual',ft:'repeat',r:'10-30 min'},
+{t:115,e:'below1000',a:'no',ag:'3050',f:'casual',ft:'repeat',r:'10-30 min'},
+{t:90,e:'mid',a:'no',ag:'3050',f:'casual',ft:'first',r:'10-30 min'},
+{t:210,e:'below1000',a:'no',ag:'50plus',f:'inactive',ft:'first',r:'60+ min'},
+{t:195,e:'below1000',a:'no',ag:'3050',f:'inactive',ft:'first',r:'60+ min'},
+{t:180,e:'mid',a:'no',ag:'50plus',f:'inactive',ft:'first',r:'30-60 min'},
+{t:240,e:'below1000',a:'no',ag:'50plus',f:'inactive',ft:'first',r:'60+ min'},
+{t:165,e:'above5000',a:'yes',ag:'50plus',f:'inactive',ft:'first',r:'30-60 min'},
+];
+EOF
+echo "Part 2 done: $(wc -c < /mnt/user-data/outputs/part2.html) bytes"cat > /mnt/user-data/outputs/part3.html << 'EOF'
+const API='/.netlify/functions/entries';
+const ADMIN_PIN='6174';
+const FITNESS_LABEL={inactive:'Inactive',casual:'Casual',active:'Active',veryactive:'Very Active'};
+const ELEV_LABEL={below1000:'<1,000ft',mid:'1-5k ft',above5000:'>5,000ft'};
+// Manitou Springs coordinates
+const LAT=38.8573, LNG=-104.9284;
 
-    <label>Fitness Level:
-        <select id="fitness">
-            <option value="casual">Casual</option>
-            <option value="moderate">Moderate</option>
-            <option value="fit">Fit</option>
-            <option value="inactive">Inactive / Health Issues</option>
-        </select>
-    </label>
+let communityCache=null;
+async function fetchCommunity(){
+  if(communityCache!==null)return communityCache;
+  try{const r=await fetch(API);if(!r.ok)throw new Error();communityCache=await r.json();return communityCache;}
+  catch(e){return[];}
+}
+async function getAllData(){return[...ORIGINAL,...(await fetchCommunity())];}
+async function updateBadge(){const all=await getAllData();document.getElementById('entry-count-badge').textContent=all.length+' hiker entries';}
 
-    <label>Home Elevation (feet): <input type="number" id="elevation" value="6000"></label>
-    <label>Age: <input type="number" id="age" value="35"></label>
+const estSel={elevation:null,acclimated:null,age:null,fitness:null,firsttime:null};
+const subSel={elevation:null,acclimated:null,age:null,fitness:null,firsttime:null,rest:null};
+function sel(el,groupId){
+  document.querySelectorAll('#'+groupId+' .option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  const val=el.dataset.val;
+  if(groupId.startsWith('e-')){estSel[groupId.replace('e-','')]=val;checkEstForm();}
+  else{subSel[groupId.replace('s-','')]=val;checkSubForm();}
+}
+function checkEstForm(){document.getElementById('est-btn').disabled=!Object.values(estSel).every(v=>v!==null);}
+function checkSubForm(){document.getElementById('sub-btn').disabled=!(document.getElementById('sub-time').value>0&&Object.values(subSel).every(v=>v!==null));}
 
-    <button onclick="calculateTime()">Estimate My Time</button>
+function scoreRow(row,sel){
+  let s=0;
+  if(row.e===sel.elevation)s+=3;if(row.a===sel.acclimated)s+=3;
+  if(row.ag===sel.age)s+=2;if(row.f===sel.fitness)s+=2;if(row.ft===sel.firsttime)s+=2;
+  return s;
+}
+function median(arr){const s=[...arr].sort((a,b)=>a-b),m=Math.floor(s.length/2);return s.length%2?s[m]:Math.round((s[m-1]+s[m])/2);}
+function pct(arr,p){const s=[...arr].sort((a,b)=>a-b);return s[Math.floor(p/100*(s.length-1))];}
 
-    <div id="result"></div>
+// ── SUNRISE/SUNSET ──
+async function fetchSunTimes(){
+  try{
+    const r=await fetch('https://api.sunrise-sunset.org/json?lat='+LAT+'&lng='+LNG+'&formatted=0');
+    const d=await r.json();
+    if(d.status!=='OK')throw new Error();
+    return{rise:new Date(d.results.sunrise),set:new Date(d.results.sunset)};
+  }catch(e){return null;}
+}
 
-    <script>
-        async function calculateTime() {
-            const fitness = document.getElementById('fitness').value;
-            const elevation = parseInt(document.getElementById('elevation').value) || 6000;
-            const age = parseInt(document.getElementById('age').value) || 35;
+function fmtTime(date){
+  return date.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true,timeZone:'America/Denver'});
+}
 
-            let minutes = 55;
-            if (fitness === "inactive") minutes += 35;
-            else if (fitness === "casual") minutes += 15;
-            else if (fitness === "fit") minutes -= 12;
+function departureTime(sunTime, estimateMin){
+  const buffer=12; // 12 min buffer (middle of 10-15)
+  const totalMin=estimateMin+buffer;
+  const depart=new Date(sunTime.getTime()-totalMin*60000);
+  return depart;
+}
 
-            if (elevation > 7000) minutes -= 5;
-            if (age > 50) minutes += 8;
+function renderSunTimes(estimateMin){
+  const box=document.getElementById('sun-times');
+  box.innerHTML='<div class="sun-loading"><span class="spinner"></span>Fetching today\'s sun times...</div>';
+  fetchSunTimes().then(sun=>{
+    if(!sun){box.innerHTML='<div style="font-size:12px;color:var(--dust)">Unable to load sun times. Check weather apps for local sunrise/sunset.</div>';return;}
+    const now=new Date();
+    const riseDepart=departureTime(sun.rise,estimateMin);
+    const setDepart=departureTime(sun.set,estimateMin);
+    const riseNext=now<riseDepart||now<sun.rise;
+    const setNext=!riseNext&&(now<setDepart||now<sun.set);
+    box.innerHTML=`
+      <div class="sun-row ${riseNext?'next':''}">
+        <div class="sun-row-left">
+          <span class="sun-icon">🌅</span>
+          <div>
+            <div style="font-size:13px;color:var(--sky);font-weight:500">Sunrise${riseNext?'<span class="next-badge">NEXT</span>':''}</div>
+            <div class="sun-time-actual">Sunrise today: ${fmtTime(sun.rise)}</div>
+          </div>
+        </div>
+        <div>
+          <div class="sun-depart">${fmtTime(riseDepart)}</div>
+          <div class="sun-depart-sub">Leave by</div>
+        </div>
+      </div>
+      <div class="sun-row ${setNext?'next':''}">
+        <div class="sun-row-left">
+          <span class="sun-icon">🌇</span>
+          <div>
+            <div style="font-size:13px;color:var(--sky);font-weight:500">Sunset${setNext?'<span class="next-badge">NEXT</span>':''}</div>
+            <div class="sun-time-actual">Sunset today: ${fmtTime(sun.set)}</div>
+          </div>
+        </div>
+        <div>
+          <div class="sun-depart">${fmtTime(setDepart)}</div>
+          <div class="sun-depart-sub">Leave by</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--trail);margin-top:8px;line-height:1.5">Includes a 12-minute buffer for setup at the summit. Times update daily.</div>
+    `;
+  });
+}
 
-            document.getElementById('result').innerHTML = `
-                <strong>Estimated summit time: ${Math.round(minutes)} minutes</strong><br><br>
-                <small>✅ Shared database active</small>
-            `;
-        }
-    </script>
+async function runEstimate(){
+  document.getElementById('est-btn').disabled=true;
+  document.getElementById('est-btn').textContent='CALCULATING...';
+  const all=await getAllData();
+  document.getElementById('est-btn').disabled=false;
+  document.getElementById('est-btn').textContent='ESTIMATE MY TIME →';
+  const scored=all.map(r=>({...r,score:scoreRow(r,estSel)}));
+  const max=Math.max(...scored.map(r=>r.score));
+  let pool=scored.filter(r=>r.score>=max-1),matchLabel='Exact profile';
+  if(pool.length<5){pool=scored.filter(r=>r.score>=max-2);matchLabel='Close profile';}
+  if(pool.length<5){pool=scored.filter(r=>r.score>=max-3);matchLabel='Broad profile';}
+  if(pool.length<3){pool=scored;matchLabel='All hikers';}
+  const times=pool.map(r=>r.t);
+  const med=median(times),lo=pct(times,25),hi=pct(times,75);
+  let insight='';
+  if(estSel.fitness==='inactive')insight='Take your time and listen to your body. There is no shame in turning around — safety first.';
+  else if(estSel.acclimated==='no')insight='Altitude hits hardest on first exposure — plan for 20–30% more time than you think.';
+  else if(estSel.fitness==='casual')insight='The Incline is relentlessly steep. Take breaks early, not late.';
+  else if(estSel.firsttime==='first')insight='First-timers often underestimate. Build in buffer time and bring extra water.';
+  else if(estSel.acclimated==='yes'&&estSel.fitness==='veryactive')insight="You're local and fit — push your pace from the bottom and enjoy it.";
+  else insight="Steady pace beats fast starts. The Incline has no easy sections.";
+  document.getElementById('res-median').textContent=med;
+  document.getElementById('res-range').innerHTML='Middle 50% of similar hikers: <strong>'+lo+'–'+hi+' min</strong>';
+  document.getElementById('res-n').textContent=pool.length+' hikers';
+  document.getElementById('res-match').textContent=matchLabel;
+  document.getElementById('res-insight').textContent=insight;
+  const sp=document.getElementById('res-sparse');
+  if(matchLabel==='All hikers'||matchLabel==='Broad profile'){sp.style.display='block';sp.textContent='Few hikers match your exact profile yet — more submissions will sharpen this estimate.';}
+  else sp.style.display='none';
+  window._lastEstimate={med,lo,hi};
+  document.getElementById('est-form').style.display='none';
+  document.getElementById('est-result').classList.add('show');
+  renderSunTimes(med);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function shareResult(){
+  const e=window._lastEstimate;if(!e)return;
+  const text='🏔️ The Manitou Incline Estimator says I should summit in about '+e.med+' minutes! Check your own estimate at https://inclineestimator.netlify.app';
+  window.open('https://www.facebook.com/sharer/sharer.php?u=https://inclineestimator.netlify.app&quote='+encodeURIComponent(text),'_blank');
+}
+
+function resetEstimate(){
+  Object.keys(estSel).forEach(k=>estSel[k]=null);
+  document.querySelectorAll('[id^="e-"] .option').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('est-btn').disabled=true;
+  document.getElementById('est-form').style.display='block';
+  document.getElementById('est-result').classList.remove('show');
+}
+
+function goReport(){
+  showPage('submit');
+  ['elevation','acclimated','age','fitness','firsttime'].forEach(key=>{
+    if(estSel[key]){const btn=document.querySelector('#s-'+key+' [data-val="'+estSel[key]+'"]');if(btn){btn.classList.add('selected');subSel[key]=estSel[key];}}
+  });
+  checkSubForm();
+}
+
+async function submitEntry(){
+  const time=parseInt(document.getElementById('sub-time').value);
+  if(!time||time<1)return;
+  document.getElementById('sub-btn').disabled=true;
+  document.getElementById('sub-btn').textContent='SAVING...';
+  document.getElementById('sub-error').style.display='none';
+  const entry={t:time,e:subSel.elevation,a:subSel.acclimated,ag:subSel.age,f:subSel.fitness,ft:subSel.firsttime,r:subSel.rest,source:'community'};
+  try{
+    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(entry)});
+    if(!r.ok)throw new Error();
+    communityCache=null;await updateBadge();
+    document.getElementById('sub-form').style.display='none';
+    document.getElementById('sub-success').classList.add('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }catch(e){
+    document.getElementById('sub-error').style.display='block';
+    document.getElementById('sub-btn').disabled=false;
+    document.getElementById('sub-btn').textContent='SUBMIT MY TIME 🏔️';
+  }
+}
+
+function resetSubmit(){
+  Object.keys(subSel).forEach(k=>subSel[k]=null);
+  document.querySelectorAll('[id^="s-"] .option').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('sub-time').value='';
+  document.getElementById('sub-btn').disabled=true;
+  document.getElementById('sub-btn').textContent='SUBMIT MY TIME 🏔️';
+  document.getElementById('sub-form').style.display='block';
+  document.getElementById('sub-success').classList.remove('show');
+}
+
+async function renderLeaderboard(){
+  const all=await getAllData();
+  const sorted=[...all].sort((a,b)=>a.t-b.t).slice(0,10);
+  const medals=['🥇','🥈','🥉'];
+  const rc=['gold','silver','bronze'];
+  document.getElementById('lb-content').innerHTML='<div class="leaderboard"><h3>Top 10 fastest summit times</h3>'+
+    sorted.map((e,i)=>`<div class="lb-item"><div class="lb-rank ${rc[i]||''}">${medals[i]||'#'+(i+1)}</div><div><span class="lb-time">${e.t}</span><span class="lb-min">min</span></div><div class="lb-profile">${FITNESS_LABEL[e.f]||e.f} · ${e.ag}<br>${ELEV_LABEL[e.e]||e.e} · ${e.ft==='first'?'First time':'Repeat'}</div></div>`).join('')+
+    '</div><p style="font-size:11px;color:var(--trail);text-align:center;margin-top:16px">Submit yours on the Report tab!</p>';
+}
+
+let adminUnlocked=false;
+function checkPin(){
+  const pin=document.getElementById('pin-input').value;if(pin.length<4)return;
+  if(pin===ADMIN_PIN){adminUnlocked=true;document.getElementById('admin-lock').style.display='none';document.getElementById('admin-content').style.display='block';renderAdmin();}
+  else if(pin.length>=4)document.getElementById('pin-error').style.display='block';
+}
+
+async function renderAdmin(){
+  const community=await fetchCommunity();const all=await getAllData();
+  const times=all.map(r=>r.t);const med=median(times);
+  document.getElementById('stats-grid').innerHTML=
+    '<div class="stat-card"><div class="stat-num">'+all.length+'</div><div class="stat-label">Total entries</div></div>'+
+    '<div class="stat-card"><div class="stat-num">'+community.length+'</div><div class="stat-label">Community submissions</div></div>'+
+    '<div class="stat-card"><div class="stat-num">'+med+'</div><div class="stat-label">Overall median (min)</div></div>'+
+    '<div class="stat-card"><div class="stat-num">'+Math.min(...times)+'–'+Math.max(...times)+'</div><div class="stat-label">Time range</div></div>';
+  const rows=community.map(e=>[e.ts||'',e.t,e.e,e.a,e.ag,e.f,e.ft,e.r||''].join(','));
+  document.getElementById('export-csv').value=['timestamp,time_min,elevation,acclimated,age,fitness,first_or_repeat,rest',...rows].join('\n');
+  document.getElementById('community-count').textContent=community.length;
+  const c=document.getElementById('entries-container');
+  c.innerHTML=community.length===0?'<div class="empty-state">No community submissions yet.</div>':
+    [...community].reverse().map(e=>'<div class="entry-item"><span class="entry-time">'+e.t+'</span> <span style="color:var(--dust);font-size:12px">min</span><div class="entry-meta">'+(ELEV_LABEL[e.e]||e.e)+' · '+e.ag+' · '+(FITNESS_LABEL[e.f]||e.f)+' · '+e.ft+'</div><div><span class="entry-source community">community</span></div></div>').join('');
+}
+
+function copyCSV(){
+  const ta=document.getElementById('export-csv');ta.select();
+  try{navigator.clipboard.writeText(ta.value).then(()=>{const b=document.querySelector('.copy-btn');b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy to clipboard',2000);});}
+  catch(e){document.execCommand('copy');}
+}
+
+const PAGE_TABS={estimate:0,submit:1,leaders:2,admin:3};
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab')[PAGE_TABS[id]].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='leaders')renderLeaderboard();
+  if(id==='admin'&&adminUnlocked)renderAdmin();
+}
+updateBadge();
+</script>
 </body>
-</html>
+  </html>
+EOF
+echo "Part 3 done: $(wc -c < /mnt/user-data/outputs/part3.html) bytes"
