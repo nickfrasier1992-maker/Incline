@@ -409,7 +409,6 @@ const ORIGINAL=[
 {t:165,e:'above5000',a:'yes',ag:'50plus',f:'inactive',ft:'first',r:'30-60 min'},
 ];
 const API='/.netlify/functions/entries';
-const ADMIN_PIN='6174';
 const FITNESS_LABEL={inactive:'Inactive',casual:'Casual',active:'Active',veryactive:'Very Active'};
 const ELEV_LABEL={below1000:'<1,000ft',mid:'1-5k ft',above5000:'>5,000ft'};
 // Manitou Springs coordinates
@@ -606,10 +605,15 @@ async function renderLeaderboard(){
 }
 
 let adminUnlocked=false;
-function checkPin(){
+async function checkPin(){
   const pin=document.getElementById('pin-input').value;if(pin.length<4)return;
-  if(pin===ADMIN_PIN){adminUnlocked=true;document.getElementById('admin-lock').style.display='none';document.getElementById('admin-content').style.display='block';renderAdmin();}
-  else if(pin.length>=4)document.getElementById('pin-error').style.display='block';
+  document.getElementById('pin-error').style.display='none';
+  try{
+    const res=await fetch('/.netlify/functions/verify-pin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pin})});
+    const data=await res.json();
+    if(data.valid){adminUnlocked=true;document.getElementById('admin-lock').style.display='none';document.getElementById('admin-content').style.display='block';renderAdmin();}
+    else document.getElementById('pin-error').style.display='block';
+  }catch(e){document.getElementById('pin-error').style.display='block';}
 }
 
 async function renderAdmin(){
