@@ -1,4 +1,3 @@
-cat > /mnt/user-data/outputs/part1.html << 'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -312,8 +311,6 @@ h1 span{color:var(--sun);}
     </div>
   </div>
 </div></div>
-EOF
-echo "Part 1 done: $(wc -c < /mnt/user-data/outputs/part1.html) bytes"cat > /mnt/user-data/outputs/part2.html << 'EOF'
 <script>
 // ═══════════════════════════════════════
 // ORIGINAL DATASET (94 entries)
@@ -413,8 +410,6 @@ const ORIGINAL=[
 {t:240,e:'below1000',a:'no',ag:'50plus',f:'inactive',ft:'first',r:'60+ min'},
 {t:165,e:'above5000',a:'yes',ag:'50plus',f:'inactive',ft:'first',r:'30-60 min'},
 ];
-EOF
-echo "Part 2 done: $(wc -c < /mnt/user-data/outputs/part2.html) bytes"cat > /mnt/user-data/outputs/part3.html << 'EOF'
 const API='/.netlify/functions/entries';
 const ADMIN_PIN='6174';
 const FITNESS_LABEL={inactive:'Inactive',casual:'Casual',active:'Active',veryactive:'Very Active'};
