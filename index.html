@@ -460,7 +460,7 @@ function fmtTime(date){
 }
 
 function departureTime(sunTime, estimateMin){
-  const buffer=12; // 12 min buffer (middle of 10-15)
+  const buffer=30; // 30 min buffer
   const totalMin=estimateMin+buffer;
   const depart=new Date(sunTime.getTime()-totalMin*60000);
   return depart;
@@ -501,7 +501,7 @@ function renderSunTimes(estimateMin){
           <div class="sun-depart-sub">Leave by</div>
         </div>
       </div>
-      <div style="font-size:11px;color:var(--dust);margin-top:8px;line-height:1.5">Includes a 12-minute buffer for setup at the summit. Times update daily.</div>
+      <div style="font-size:11px;color:var(--dust);margin-top:8px;line-height:1.5">Includes a 30-minute buffer for setup at the summit. Times update daily.</div>
     `;
   });
 }
