@@ -518,7 +518,7 @@ async function runEstimate(){
   if(pool.length<5){pool=scored.filter(r=>r.score>=max-2);matchLabel='Close profile';}
   if(pool.length<5){pool=scored.filter(r=>r.score>=max-3);matchLabel='Broad profile';}
   if(pool.length<3){pool=scored;matchLabel='All hikers';}
-  const times=pool.map(r=>r.t);
+  const times=pool.map(r=>r.t).sort((a,b)=>a-b).slice(Math.floor(pool.length*0.05),Math.ceil(pool.length*0.95));
   const med=median(times),lo=pct(times,25),hi=pct(times,75);
   let insight='';
   if(estSel.fitness==='inactive')insight='Take your time and listen to your body. There is no shame in turning around — safety first.';
