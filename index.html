@@ -624,10 +624,19 @@ async function renderAdmin(){
   document.getElementById('export-csv').value=['timestamp,time_min,elevation,acclimated,age,fitness,first_or_repeat,rest',...rows].join('\n');
   document.getElementById('community-count').textContent=community.length;
   const c=document.getElementById('entries-container');
-  c.innerHTML=community.length===0?'<div class="empty-state">No community submissions yet.</div>':
+ c.innerHTML=community.length===0?'<div class="empty-state">No community submissions yet.</div>':
+  [...community].reverse().map((e,i)=>'<div class="entry-item"><span class="entry-time">'+e.t+'</span> <span style="color:var(--dust);font-size:12px">min</span><div class="entry-meta">'+(ELEV_LABEL[e.e]||e.e)+' · '+e.ag+' · '+(FITNESS_LABEL[e.f]||e.f)+' · '+e.ft+'</div><button onclick="deleteEntry('+（community.length-1-i）+')" style="margin-top:6px;padding:4px 10px;background:rgba(192,57,43,0.2);border:1px solid rgba(192,57,43,0.4);border-radius:6px;color:#e8a09a;font-size:11px;cursor:pointer;">🗑 Delete</button></div>').join(''); 
     [...community].reverse().map(e=>'<div class="entry-item"><span class="entry-time">'+e.t+'</span> <span style="color:var(--dust);font-size:12px">min</span><div class="entry-meta">'+(ELEV_LABEL[e.e]||e.e)+' · '+e.ag+' · '+(FITNESS_LABEL[e.f]||e.f)+' · '+e.ft+'</div><div><span class="entry-source community">community</span></div></div>').join('');
 }
-
+async function deleteEntry(index){
+  if(!confirm('Delete this entry?'))return;
+  const community=await fetchCommunity();
+  community.splice(index,1);
+  try{
+    await fetch(API+'/replace',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(community)});
+    communityCache=null;renderAdmin();
+  }catch(e){alert('Delete failed — your Netlify function needs a replace endpoint.');}
+}
 function copyCSV(){
   const ta=document.getElementById('export-csv');ta.select();
   try{navigator.clipboard.writeText(ta.value).then(()=>{const b=document.querySelector('.copy-btn');b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy to clipboard',2000);});}
