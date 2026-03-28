@@ -791,7 +791,7 @@ function copyCSV(){
   try{navigator.clipboard.writeText(ta.value).then(()=>{const b=document.querySelector('.copy-btn');b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy to clipboard',2000);});}
   catch(e){document.execCommand('copy');}
 }
-const PAGE_TABS={estimate:0,submit:1,leaders:2,admin:3}
+const PAGE_TABS={estimate:0,submit:1,leaders:2,parking:3,admin:4};
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
