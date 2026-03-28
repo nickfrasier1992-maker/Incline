@@ -759,7 +759,8 @@ async function submitEntry(){
   document.getElementById('sub-btn').disabled=true;
   document.getElementById('sub-btn').textContent='SAVING...';
   document.getElementById('sub-error').style.display='none';
-  const entry={t:time,e:subSel.elevation,a:subSel.acclimated,ag:subSel.age,f:subSel.fitness,ft:subSel.firsttime,r:subSel.rest,source:'community'};
+  const descent=document.getElementById('sub-descent').value;
+const entry={t:time,e:subSel.elevation,a:subSel.acclimated,ag:subSel.age,f:subSel.fitness,ft:subSel.firsttime,r:subSel.rest,d:descent||null,source:'community'};
   try{
     const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(entry)});
     if(!r.ok)throw new Error();
