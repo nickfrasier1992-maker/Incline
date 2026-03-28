@@ -712,7 +712,6 @@ async function runEstimate(){
   document.getElementById('res-median').textContent=med;
   document.getElementById('res-range').innerHTML='Middle 50% of similar hikers: <strong>'+lo+'–'+hi+' min</strong>';
   document.getElementById('res-n').textContent=pool.length+' hikers';
-  document.getElementById('res-match').textContent=matchLabel;
   document.getElementById('res-insight').textContent=insight;
   const sp=document.getElementById('res-sparse');
   if(matchLabel==='All hikers'||matchLabel==='Broad profile'){sp.style.display='block';sp.textContent='Few hikers match your exact profile yet — more submissions will sharpen this estimate.';}
