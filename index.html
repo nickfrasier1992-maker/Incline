@@ -722,7 +722,7 @@ async function runEstimate(){
   document.getElementById('res-n').textContent=pool.length+' hikers';
   document.getElementById('res-insight').textContent=insight;
   const sp=document.getElementById('res-sparse');
-  if(matchLabel==='All hikers'||matchLabel==='Broad profile'){sp.style.display='block';sp.textContent='Few hikers match your exact profile yet — more submissions will sharpen this estimate.';}
+  if(matchLabel==='All hikers'||matchLabel==='Broad profile'){sp.style.display='block';sp.textContent='Still building data for this profile — estimate uses broader matches';}
   else sp.style.display='none';
   window._lastEstimate={med,lo,hi};
   document.getElementById('est-form').style.display='none';
