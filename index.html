@@ -822,7 +822,7 @@ async function deleteEntry(index){
   const community=await fetchCommunity();
   community.splice(index,1);
   try{
-    await fetch(API+'/replace',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(community)});
+    await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(community)});
     communityCache=null;renderAdmin();
   }catch(e){alert('Delete failed — your Netlify function needs a replace endpoint.');}
 }
