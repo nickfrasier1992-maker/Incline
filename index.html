@@ -860,7 +860,8 @@ function showPage(id){
   document.querySelectorAll('.nav-tab')[PAGE_TABS[id]].classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(id==='leaders')renderLeaderboard();
-  if(id==='admin'&&adminUnlocked)renderAdmin();
+if(id==='admin'&&adminUnlocked)renderAdmin();
+if(id==='donate'){}
 }
 updateBadge();
 </script>
