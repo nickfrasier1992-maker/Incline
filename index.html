@@ -719,7 +719,7 @@ function renderSunTimes(estimateMin){
 
 async function runEstimate(){
   document.getElementById('est-btn').disabled=true;
-  document.getElementById('est-btn').textContent='CALCULATING...';
+  document.getElementById('est-btn').textContent='Finding similar hikers...';
   const all=await getAllData();
   document.getElementById('est-btn').disabled=false;
   document.getElementById('est-btn').textContent='ESTIMATE MY TIME →';
