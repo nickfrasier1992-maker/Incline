@@ -776,7 +776,8 @@ function goReport(){
 
 async function submitEntry(){
   const time=parseInt(document.getElementById('sub-time').value);
-  if(!time||time<25){alert('Minimum submission time is 25 minutes. Please check your entry.');return;}
+if(!time||time<25){alert('Minimum submission time is 25 minutes. Please check your entry.');return;}
+if(time>300){alert('Maximum submission time is 300 minutes. Please check your entry.');return;}
   document.getElementById('sub-btn').disabled=true;
   document.getElementById('sub-btn').textContent='SAVING...';
   document.getElementById('sub-error').style.display='none';
