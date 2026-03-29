@@ -847,7 +847,7 @@ async function deleteEntry(index){
   try{
     await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(community)});
     communityCache=null;renderAdmin();
-  }catch(e){alert('Delete failed — your Netlify function needs a replace endpoint.');}
+  }catch(e){alert('Delete failed. Please try again.');}
 }
 function copyCSV(){
   const ta=document.getElementById('export-csv');ta.select();
