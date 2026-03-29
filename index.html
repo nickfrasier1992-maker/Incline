@@ -793,7 +793,7 @@ const entry={t:time,e:subSel.elevation,a:subSel.acclimated,ag:subSel.age,f:subSe
   }catch(e){
     document.getElementById('sub-error').style.display='block';
     document.getElementById('sub-btn').disabled=false;
-    document.getElementById('sub-btn').textContent='SUBMIT MY TIME 🏔️';
+    document.getElementById('sub-btn').textContent='Submit my hike 🏔️';
   }
 }
 
@@ -802,7 +802,7 @@ function resetSubmit(){
   document.querySelectorAll('[id^="s-"] .option').forEach(o=>o.classList.remove('selected'));
   document.getElementById('sub-time').value='';
   document.getElementById('sub-btn').disabled=true;
-  document.getElementById('sub-btn').textContent='SUBMIT MY TIME 🏔️';
+  document.getElementById('sub-btn').textContent='Submit my hike 🏔️';
   document.getElementById('sub-form').style.display='block';
   document.getElementById('sub-success').classList.remove('show');
 }
