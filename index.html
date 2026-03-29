@@ -801,6 +801,7 @@ function resetSubmit(){
   Object.keys(subSel).forEach(k=>subSel[k]=null);
   document.querySelectorAll('[id^="s-"] .option').forEach(o=>o.classList.remove('selected'));
   document.getElementById('sub-time').value='';
+  document.getElementById('sub-descent').value=
   document.getElementById('sub-btn').disabled=true;
   document.getElementById('sub-btn').textContent='Submit my hike 🏔️';
   document.getElementById('sub-form').style.display='block';
