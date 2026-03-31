@@ -668,6 +668,7 @@ function scoreRow(row,sel){
   let s=0;
   if(row.e===sel.elevation)s+=3;if(row.a===sel.acclimated)s+=3;
   if(row.ag===sel.age)s+=2;if(row.f===sel.fitness)s+=4;if(row.ft===sel.firsttime)s+=2;
+if(row.ft==='first'&&sel.firsttime==='first'&&row.a===sel.acclimated)s+=2;
 if(row.r===sel.rest)s+=2;
 return s;
 }
