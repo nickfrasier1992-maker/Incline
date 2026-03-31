@@ -191,6 +191,14 @@ h1 span{color:var(--sun);}
         <button class="option" data-val="repeat" onclick="sel(this,'e-firsttime')"><div class="option-radio"></div>Repeat</button>
       </div>
     </div>
+    <div class="question"><div class="q-label">How much do you plan to rest?</div>
+  <div class="options options-row" id="e-rest">
+    <button class="option" data-val="0-10 min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>Minimal</button>
+    <button class="option" data-val="10-30 min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>Some breaks</button>
+    <button class="option" data-val="30-60 min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>Frequent breaks</button>
+    <button class="option" data-val="60+ min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>Many long breaks</button>
+  </div>
+    </div>
     <button class="primary-btn" id="est-btn" onclick="runEstimate()" disabled>ESTIMATE MY TIME →</button>
   </div>
   <div class="result-card" id="est-result">
