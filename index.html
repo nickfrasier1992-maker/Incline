@@ -652,7 +652,7 @@ async function fetchCommunity(){
 async function getAllData(){return[...ORIGINAL,...(await fetchCommunity())];}
 async function updateBadge(){const all=await getAllData();document.getElementById('entry-count-badge').textContent=all.length+' hiker entries';}
 
-const estSel={elevation:null,acclimated:null,age:null,fitness:null,firsttime:null};
+const estSel={elevation:null,acclimated:null,age:null,fitness:null,firsttime:null,rest:null};
 const subSel={elevation:null,acclimated:null,age:null,fitness:null,firsttime:null,rest:null};
 function sel(el,groupId){
   document.querySelectorAll('#'+groupId+' .option').forEach(o=>o.classList.remove('selected'));
