@@ -659,7 +659,7 @@ function checkSubForm(){document.getElementById('sub-btn').disabled=!(document.g
 function scoreRow(row,sel){
   let s=0;
   if(row.e===sel.elevation)s+=3;if(row.a===sel.acclimated)s+=3;
-  if(row.ag===sel.age)s+=2;if(row.f===sel.fitness)s+=2;if(row.ft===sel.firsttime)s+=2;
+  if(row.ag===sel.age)s+=2;if(row.f===sel.fitness)s+=4;if(row.ft===sel.firsttime)s+=2;
   return s;
 }
 function median(arr){const s=[...arr].sort((a,b)=>a-b),m=Math.floor(s.length/2);return s.length%2?s[m]:Math.round((s[m-1]+s[m])/2);}
