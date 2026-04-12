@@ -193,10 +193,11 @@ h1 span{color:var(--sun);}
     </div>
     <div class="question"><div class="q-label">How much do you plan to rest?</div>
   <div class="options options-row" id="e-rest">
-    <button class="option" data-val="0-10 min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>Minimal</button>
-    <button class="option" data-val="10-30 min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>Some breaks</button>
-    <button class="option" data-val="30-60 min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>Frequent breaks</button>
-    <button class="option" data-val="60+ min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>Many long breaks</button>
+    <button class="option" data-val="0 min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>0 min</button>
+    <button class="option" data-val="15 min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>15 min</button>
+    <button class="option" data-val="30 min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>30 min</button>
+    <button class="option" data-val="45 min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>45 min</button>
+    <button class="option" data-val="60+ min" onclick="sel(this,'e-rest')"><div class="option-radio"></div>60+ min</button>
   </div>
     </div>
     <button class="primary-btn" id="est-btn" onclick="runEstimate()" disabled>ESTIMATE MY TIME →</button>
@@ -301,9 +302,10 @@ h1 span{color:var(--sun);}
     </div>
     <div class="question"><div class="q-label">Total time resting?</div>
       <div class="options options-row" id="s-rest">
-        <button class="option" data-val="0-10 min" onclick="sel(this,'s-rest')"><div class="option-radio"></div>0–10 min</button>
-        <button class="option" data-val="10-30 min" onclick="sel(this,'s-rest')"><div class="option-radio"></div>10–30 min</button>
-        <button class="option" data-val="30-60 min" onclick="sel(this,'s-rest')"><div class="option-radio"></div>30–60 min</button>
+        <button class="option" data-val="0 min" onclick="sel(this,'s-rest')"><div class="option-radio"></div>0 min</button>
+        <button class="option" data-val="15 min" onclick="sel(this,'s-rest')"><div class="option-radio"></div>15 min</button>
+        <button class="option" data-val="30 min" onclick="sel(this,'s-rest')"><div class="option-radio"></div>30 min</button>
+        <button class="option" data-val="45 min" onclick="sel(this,'s-rest')"><div class="option-radio"></div>45 min</button>
         <button class="option" data-val="60+ min" onclick="sel(this,'s-rest')"><div class="option-radio"></div>60+ min</button>
       </div>
     </div>
@@ -351,34 +353,28 @@ h1 span{color:var(--sun);}
     <div style="font-size:13px;font-weight:600;color:#e8a09a;margin-bottom:8px;">🚫 Where NOT to park</div>
     <div style="font-size:12px;color:#e8a09a;line-height:1.8;">
       ❌ <strong>Barr Lot</strong> — Incline users will not be granted access if parked here. Barr Lot is for National Forest / Barr Trail users only.<br>
-      ❌ <strong>Ruxton Ave & Winter St</strong> — Residential Parking Permits only. Parking without a permit will result in a ticket.<br>
-      ❌ <strong>Hiawatha Gardens</strong> — Currently closed due to construction.
+      ❌ <strong>Ruxton Ave & Winter St</strong> — Residential Parking Permits only. Parking without a permit will result in a ticket.
     </div>
   </div>
 
     <!-- Iron Springs Chateau -->
-<div style="padding:16px;background:rgb(255,255,255,0.03);border:1px solid rgb(255,255,255,0.08);border-radius:12px">
-  <div style="display:flex;justify-content:space-between;align-items:flex-start">
-    <div style="font-size:15px;font-weight:600;color:var(--peak);">🏰 Iron Springs Chateau</div>
-    <div style="font-size:15px;font-weight:600;color:var(--peak);">$15 (4hrs)</div>
+  <div style="padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;margin-bottom:10px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+      <div>
+        <div style="font-size:15px;font-weight:600;color:var(--peak);">🏰 Iron Springs Chateau</div>
+        <div style="font-size:11px;color:var(--dust);margin-top:2px;">444 Ruxton Ave · Closest to Incline trailhead</div>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--sun);">$15/4hrs</div>
+    </div>
+    <div style="font-size:12px;color:var(--dust);margin-top:10px;line-height:1.8;">
+      📍 444 Ruxton Ave<br>
+      💰 $15 per car · Cash only<br>
+      🕐 4:30am – sunset · Valid for 4 hours<br>
+      🎟️ First come, first served<br>
+      ⚠️ May close early if show is scheduled
+    </div>
+    <a href="https://maps.google.com/?q=444+Ruxton+Ave+Manitou+Springs+CO" target="_blank" style="display:inline-block;margin-top:10px;padding:7px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:7px;font-size:11px;color:var(--sky);text-decoration:none;">📍 Open in Maps →</a>
   </div>
-  <div style="font-size:11px;color:var(--dust);margin-top:2px">444 Ruxton Ave • Closest to Incline trailhead</div>
-  
-  <div style="margin-top:12px">
-    <div style="font-size:13px;font-weight:600;color:var(--peak);">• 444 Ruxton Ave</div>
-    <div style="font-size:13px;font-weight:600;color:var(--peak);">• $15 per car – cash only</div>
-    <div style="font-size:13px;font-weight:600;color:var(--peak);">• Valid for 4 hours</div>
-    <div style="font-size:13px;font-weight:600;color:var(--peak);">• First come, first served</div>
-    <div style="font-size:13px;font-weight:600;color:var(--peak);">• 4:30am – sunset</div>
-    <div style="font-size:13px;font-weight:600;color:var(--peak);">• May close early if show is scheduled</div>
-  </div>
-  
-  <div style="margin-top:16px">
-    <a href="https://maps.google.com/?q=444+Ruxton+Ave+Manitou+Springs+CO" target="_blank" style="display:inline-block;padding:8px 16px;background:var(--peak);color:white;border-radius:9999px;font-size:13px;font-weight:600;text-decoration:none;">Open in Maps →</a>
-  </div>
-  
-  <div style="font-size:11px;color:var(--dust);margin-top:12px">Pay with cash only • No Honk app needed</div>
-</div>
     
   <!-- Dillon Mobility Hub -->
   <div style="padding:16px;background:rgba(232,164,69,0.08);border:1px solid rgba(232,164,69,0.25);border-radius:12px;margin-bottom:10px;">
@@ -475,12 +471,30 @@ h1 span{color:var(--sun);}
     </div>
     <a href="https://maps.google.com/?q=Downtown+Manitou+Springs+CO" target="_blank" style="display:inline-block;margin-top:10px;padding:7px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:7px;font-size:11px;color:var(--sky);text-decoration:none;">📍 Downtown in Maps →</a>
   </div>
+
+  <!-- Hiawatha Gardens -->
+  <div style="padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;margin-bottom:10px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+      <div>
+        <div style="font-size:15px;font-weight:600;color:var(--peak);">🌿 Hiawatha Gardens</div>
+        <div style="font-size:11px;color:var(--dust);margin-top:2px;">606 Manitou Ave</div>
+      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--sun);">FREE</div>
+    </div>
+    <div style="font-size:12px;color:var(--dust);margin-top:10px;line-height:1.8;">
+      📍 606 Manitou Ave<br>
+      🚌 Free shuttle #33 pickup point<br>
+      💰 Free parking<br>
+      ✅ Great option for shuttle riders
+    </div>
+    <a href="https://maps.google.com/?q=Hiawatha+Gardens+606+Manitou+Ave+Manitou+Springs+CO" target="_blank" style="display:inline-block;margin-top:10px;padding:7px 12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:7px;font-size:11px;color:var(--sky);text-decoration:none;">📍 Open in Maps →</a>
+  </div>
 </div>
   <!-- SHUTTLE HIGHLIGHT -->
-  <div style="margin-top:20px;padding:16px;background:rgba(74,124,89,0.15);border:1px solid rgba(74,124,89,0.4);border-radius:14px;position:relative;">
+  <div style="margin-top:10px;padding:16px;background:rgba(74,124,89,0.15);border:1px solid rgba(74,124,89,0.4);border-radius:14px;position:relative;">
     <div style="font-size:11px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#a8d4b4;margin-bottom:6px">⭐ Best option for Incline hikers</div>
     <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--peak)">FREE Shuttle #33</div>
-    <div style="font-size:13px;color:var(--sky);margin-top:4px;line-height:1.6">Runs year-round directly to the Manitou Incline &amp; Cog Railway. Arrives every ~20 minutes. ADA accessible. Park at Hiawatha Gardens and ride for free.</div>
+    <div style="font-size:13px;color:var(--sky);margin-top:4px;line-height:1.6">Runs year-round directly to the Manitou Incline &amp; Cog Railway. Arrives every ~20 minutes. ADA accessible. Park at Hiawatha Gardens or Dillon Mobility Hub and ride for free.</div>
     <div style="margin-top:10px;font-size:12px;color:var(--dust);line-height:1.6">⚠️ Shuttle #33 may not run up Ruxton Ave in inclement weather.</div>
     <a href="https://manitousprings.org/manitou-free-shuttle/" target="_blank" style="display:inline-block;margin-top:12px;padding:9px 16px;background:rgba(74,124,89,0.3);border:1px solid rgba(74,124,89,0.5);border-radius:8px;font-size:12px;font-weight:600;color:#a8d4b4;text-decoration:none;">Shuttle map &amp; info →</a>
   </div>
@@ -543,99 +557,99 @@ Donations help cover hosting, maintenance, and future improvements. Any amount h
 // ORIGINAL DATASET (94 entries)
 // ═══════════════════════════════════════
 const ORIGINAL=[
-{t:54,e:'below1000',a:'no',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
-{t:70,e:'below1000',a:'partial',ag:'3050',f:'active',ft:'first',r:'0-10 min'},
-{t:72,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'10-30 min'},
-{t:120,e:'above5000',a:'yes',ag:'under30',f:'casual',ft:'repeat',r:'30-60 min'},
-{t:120,e:'below1000',a:'partial',ag:'3050',f:'active',ft:'first',r:'30-60 min'},
-{t:70,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
-{t:167,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'30-60 min'},
-{t:38,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
-{t:90,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
-{t:64,e:'below1000',a:'partial',ag:'3050',f:'active',ft:'first',r:'10-30 min'},
-{t:66,e:'mid',a:'no',ag:'3050',f:'active',ft:'first',r:'0-10 min'},
-{t:75,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
-{t:120,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'first',r:'0-10 min'},
-{t:105,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'first',r:'10-30 min'},
-{t:131,e:'below1000',a:'no',ag:'50plus',f:'casual',ft:'first',r:'30-60 min'},
-{t:60,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
-{t:67,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
-{t:61,e:'mid',a:'no',ag:'3050',f:'active',ft:'first',r:'0-10 min'},
-{t:110,e:'mid',a:'partial',ag:'3050',f:'active',ft:'first',r:'10-30 min'},
-{t:80,e:'above5000',a:'yes',ag:'3050',f:'veryactive',ft:'first',r:'10-30 min'},
-{t:60,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
-{t:30,e:'above5000',a:'yes',ag:'50plus',f:'veryactive',ft:'repeat',r:'0-10 min'},
-{t:60,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'10-30 min'},
-{t:77,e:'mid',a:'partial',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
-{t:80,e:'below1000',a:'no',ag:'50plus',f:'veryactive',ft:'first',r:'0-10 min'},
-{t:90,e:'below1000',a:'no',ag:'under30',f:'veryactive',ft:'first',r:'10-30 min'},
-{t:52,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
-{t:68,e:'above5000',a:'yes',ag:'50plus',f:'veryactive',ft:'repeat',r:'0-10 min'},
-{t:35,e:'above5000',a:'yes',ag:'3050',f:'veryactive',ft:'repeat',r:'0-10 min'},
-{t:63,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'10-30 min'},
-{t:55,e:'below1000',a:'partial',ag:'3050',f:'active',ft:'first',r:'0-10 min'},
-{t:76,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'first',r:'10-30 min'},
-{t:73,e:'below1000',a:'no',ag:'3050',f:'active',ft:'repeat',r:'10-30 min'},
-{t:52,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
-{t:80,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'first',r:'10-30 min'},
-{t:70,e:'above5000',a:'yes',ag:'under30',f:'active',ft:'first',r:'10-30 min'},
-{t:30,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
-{t:135,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'30-60 min'},
-{t:41,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
-{t:47,e:'above5000',a:'partial',ag:'under30',f:'active',ft:'repeat',r:'0-10 min'},
-{t:58,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'first',r:'0-10 min'},
-{t:39,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
-{t:42,e:'above5000',a:'yes',ag:'under30',f:'veryactive',ft:'repeat',r:'0-10 min'},
-{t:53,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'10-30 min'},
+{t:54,e:'below1000',a:'no',ag:'3050',f:'active',ft:'repeat',r:'0 min'},
+{t:70,e:'below1000',a:'partial',ag:'3050',f:'active',ft:'first',r:'0 min'},
+{t:72,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'15 min'},
+{t:120,e:'above5000',a:'yes',ag:'under30',f:'casual',ft:'repeat',r:'45 min'},
+{t:120,e:'below1000',a:'partial',ag:'3050',f:'active',ft:'first',r:'45 min'},
+{t:70,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'repeat',r:'0 min'},
+{t:167,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'45 min'},
+{t:38,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0 min'},
+{t:90,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0 min'},
+{t:64,e:'below1000',a:'partial',ag:'3050',f:'active',ft:'first',r:'15 min'},
+{t:66,e:'mid',a:'no',ag:'3050',f:'active',ft:'first',r:'0 min'},
+{t:75,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0 min'},
+{t:120,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'first',r:'0 min'},
+{t:105,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'first',r:'15 min'},
+{t:131,e:'below1000',a:'no',ag:'50plus',f:'casual',ft:'first',r:'45 min'},
+{t:60,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0 min'},
+{t:67,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0 min'},
+{t:61,e:'mid',a:'no',ag:'3050',f:'active',ft:'first',r:'0 min'},
+{t:110,e:'mid',a:'partial',ag:'3050',f:'active',ft:'first',r:'15 min'},
+{t:80,e:'above5000',a:'yes',ag:'3050',f:'veryactive',ft:'first',r:'15 min'},
+{t:60,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0 min'},
+{t:30,e:'above5000',a:'yes',ag:'50plus',f:'veryactive',ft:'repeat',r:'0 min'},
+{t:60,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'15 min'},
+{t:77,e:'mid',a:'partial',ag:'3050',f:'active',ft:'repeat',r:'0 min'},
+{t:80,e:'below1000',a:'no',ag:'50plus',f:'veryactive',ft:'first',r:'0 min'},
+{t:90,e:'below1000',a:'no',ag:'under30',f:'veryactive',ft:'first',r:'15 min'},
+{t:52,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0 min'},
+{t:68,e:'above5000',a:'yes',ag:'50plus',f:'veryactive',ft:'repeat',r:'0 min'},
+{t:35,e:'above5000',a:'yes',ag:'3050',f:'veryactive',ft:'repeat',r:'0 min'},
+{t:63,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'15 min'},
+{t:55,e:'below1000',a:'partial',ag:'3050',f:'active',ft:'first',r:'0 min'},
+{t:76,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'first',r:'15 min'},
+{t:73,e:'below1000',a:'no',ag:'3050',f:'active',ft:'repeat',r:'15 min'},
+{t:52,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0 min'},
+{t:80,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'first',r:'15 min'},
+{t:70,e:'above5000',a:'yes',ag:'under30',f:'active',ft:'first',r:'15 min'},
+{t:30,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0 min'},
+{t:135,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'45 min'},
+{t:41,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0 min'},
+{t:47,e:'above5000',a:'partial',ag:'under30',f:'active',ft:'repeat',r:'0 min'},
+{t:58,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'first',r:'0 min'},
+{t:39,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0 min'},
+{t:42,e:'above5000',a:'yes',ag:'under30',f:'veryactive',ft:'repeat',r:'0 min'},
+{t:53,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'15 min'},
 {t:160,e:'above5000',a:'partial',ag:'3050',f:'casual',ft:'first',r:'60+ min'},
-{t:120,e:'below1000',a:'no',ag:'3050',f:'casual',ft:'first',r:'30-60 min'},
-{t:85,e:'below1000',a:'partial',ag:'50plus',f:'veryactive',ft:'first',r:'0-10 min'},
-{t:58,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'10-30 min'},
-{t:180,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'first',r:'0-10 min'},
-{t:105,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'10-30 min'},
-{t:120,e:'below1000',a:'partial',ag:'3050',f:'casual',ft:'first',r:'10-30 min'},
-{t:45,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
-{t:60,e:'above5000',a:'no',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
-{t:35,e:'above5000',a:'yes',ag:'3050',f:'veryactive',ft:'repeat',r:'0-10 min'},
-{t:29,e:'below1000',a:'no',ag:'3050',f:'veryactive',ft:'repeat',r:'0-10 min'},
-{t:210,e:'above5000',a:'yes',ag:'50plus',f:'casual',ft:'first',r:'10-30 min'},
-{t:29,e:'below1000',a:'no',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
-{t:42,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
+{t:120,e:'below1000',a:'no',ag:'3050',f:'casual',ft:'first',r:'45 min'},
+{t:85,e:'below1000',a:'partial',ag:'50plus',f:'veryactive',ft:'first',r:'0 min'},
+{t:58,e:'below1000',a:'no',ag:'50plus',f:'active',ft:'first',r:'15 min'},
+{t:180,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'first',r:'0 min'},
+{t:105,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'15 min'},
+{t:120,e:'below1000',a:'partial',ag:'3050',f:'casual',ft:'first',r:'15 min'},
+{t:45,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0 min'},
+{t:60,e:'above5000',a:'no',ag:'3050',f:'active',ft:'repeat',r:'0 min'},
+{t:35,e:'above5000',a:'yes',ag:'3050',f:'veryactive',ft:'repeat',r:'0 min'},
+{t:29,e:'below1000',a:'no',ag:'3050',f:'veryactive',ft:'repeat',r:'0 min'},
+{t:210,e:'above5000',a:'yes',ag:'50plus',f:'casual',ft:'first',r:'15 min'},
+{t:29,e:'below1000',a:'no',ag:'3050',f:'active',ft:'repeat',r:'0 min'},
+{t:42,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0 min'},
 {t:180,e:'below1000',a:'partial',ag:'50plus',f:'active',ft:'first',r:'60+ min'},
-{t:90,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
-{t:90,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'first',r:'0-10 min'},
-{t:46,e:'below1000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0-10 min'},
-{t:60,e:'above5000',a:'no',ag:'3050',f:'active',ft:'first',r:'0-10 min'},
-{t:60,e:'below1000',a:'no',ag:'50plus',f:'casual',ft:'first',r:'0-10 min'},
-{t:45,e:'above5000',a:'yes',ag:'under30',f:'active',ft:'repeat',r:'0-10 min'},
-{t:59,e:'above5000',a:'yes',ag:'under30',f:'veryactive',ft:'repeat',r:'0-10 min'},
-{t:53,e:'mid',a:'partial',ag:'3050',f:'active',ft:'first',r:'0-10 min'},
-{t:28,e:'above5000',a:'yes',ag:'3050',f:'veryactive',ft:'repeat',r:'0-10 min'},
-{t:155,e:'below1000',a:'no',ag:'3050',f:'casual',ft:'first',r:'30-60 min'},
-{t:140,e:'below1000',a:'no',ag:'under30',f:'casual',ft:'first',r:'10-30 min'},
-{t:175,e:'below1000',a:'no',ag:'50plus',f:'casual',ft:'first',r:'30-60 min'},
-{t:130,e:'below1000',a:'partial',ag:'under30',f:'casual',ft:'first',r:'10-30 min'},
-{t:165,e:'mid',a:'no',ag:'50plus',f:'casual',ft:'first',r:'30-60 min'},
-{t:85,e:'mid',a:'no',ag:'under30',f:'active',ft:'first',r:'10-30 min'},
-{t:70,e:'mid',a:'no',ag:'3050',f:'active',ft:'repeat',r:'0-10 min'},
-{t:110,e:'mid',a:'no',ag:'50plus',f:'active',ft:'first',r:'10-30 min'},
-{t:95,e:'mid',a:'partial',ag:'3050',f:'active',ft:'first',r:'10-30 min'},
-{t:55,e:'mid',a:'no',ag:'under30',f:'veryactive',ft:'repeat',r:'0-10 min'},
-{t:75,e:'below1000',a:'no',ag:'under30',f:'active',ft:'first',r:'10-30 min'},
-{t:55,e:'below1000',a:'partial',ag:'under30',f:'active',ft:'first',r:'0-10 min'},
-{t:48,e:'below1000',a:'no',ag:'under30',f:'veryactive',ft:'repeat',r:'0-10 min'},
-{t:95,e:'below1000',a:'no',ag:'under30',f:'casual',ft:'first',r:'10-30 min'},
-{t:65,e:'below1000',a:'no',ag:'3050',f:'veryactive',ft:'first',r:'0-10 min'},
-{t:72,e:'below1000',a:'partial',ag:'50plus',f:'veryactive',ft:'first',r:'0-10 min'},
-{t:58,e:'mid',a:'partial',ag:'50plus',f:'veryactive',ft:'first',r:'0-10 min'},
-{t:100,e:'above5000',a:'yes',ag:'50plus',f:'casual',ft:'repeat',r:'10-30 min'},
-{t:115,e:'below1000',a:'no',ag:'3050',f:'casual',ft:'repeat',r:'10-30 min'},
-{t:90,e:'mid',a:'no',ag:'3050',f:'casual',ft:'first',r:'10-30 min'},
+{t:90,e:'above5000',a:'yes',ag:'3050',f:'active',ft:'repeat',r:'0 min'},
+{t:90,e:'above5000',a:'yes',ag:'50plus',f:'active',ft:'first',r:'0 min'},
+{t:46,e:'below1000',a:'yes',ag:'50plus',f:'active',ft:'repeat',r:'0 min'},
+{t:60,e:'above5000',a:'no',ag:'3050',f:'active',ft:'first',r:'0 min'},
+{t:60,e:'below1000',a:'no',ag:'50plus',f:'casual',ft:'first',r:'0 min'},
+{t:45,e:'above5000',a:'yes',ag:'under30',f:'active',ft:'repeat',r:'0 min'},
+{t:59,e:'above5000',a:'yes',ag:'under30',f:'veryactive',ft:'repeat',r:'0 min'},
+{t:53,e:'mid',a:'partial',ag:'3050',f:'active',ft:'first',r:'0 min'},
+{t:28,e:'above5000',a:'yes',ag:'3050',f:'veryactive',ft:'repeat',r:'0 min'},
+{t:155,e:'below1000',a:'no',ag:'3050',f:'casual',ft:'first',r:'45 min'},
+{t:140,e:'below1000',a:'no',ag:'under30',f:'casual',ft:'first',r:'15 min'},
+{t:175,e:'below1000',a:'no',ag:'50plus',f:'casual',ft:'first',r:'45 min'},
+{t:130,e:'below1000',a:'partial',ag:'under30',f:'casual',ft:'first',r:'15 min'},
+{t:165,e:'mid',a:'no',ag:'50plus',f:'casual',ft:'first',r:'45 min'},
+{t:85,e:'mid',a:'no',ag:'under30',f:'active',ft:'first',r:'15 min'},
+{t:70,e:'mid',a:'no',ag:'3050',f:'active',ft:'repeat',r:'0 min'},
+{t:110,e:'mid',a:'no',ag:'50plus',f:'active',ft:'first',r:'15 min'},
+{t:95,e:'mid',a:'partial',ag:'3050',f:'active',ft:'first',r:'15 min'},
+{t:55,e:'mid',a:'no',ag:'under30',f:'veryactive',ft:'repeat',r:'0 min'},
+{t:75,e:'below1000',a:'no',ag:'under30',f:'active',ft:'first',r:'15 min'},
+{t:55,e:'below1000',a:'partial',ag:'under30',f:'active',ft:'first',r:'0 min'},
+{t:48,e:'below1000',a:'no',ag:'under30',f:'veryactive',ft:'repeat',r:'0 min'},
+{t:95,e:'below1000',a:'no',ag:'under30',f:'casual',ft:'first',r:'15 min'},
+{t:65,e:'below1000',a:'no',ag:'3050',f:'veryactive',ft:'first',r:'0 min'},
+{t:72,e:'below1000',a:'partial',ag:'50plus',f:'veryactive',ft:'first',r:'0 min'},
+{t:58,e:'mid',a:'partial',ag:'50plus',f:'veryactive',ft:'first',r:'0 min'},
+{t:100,e:'above5000',a:'yes',ag:'50plus',f:'casual',ft:'repeat',r:'15 min'},
+{t:115,e:'below1000',a:'no',ag:'3050',f:'casual',ft:'repeat',r:'15 min'},
+{t:90,e:'mid',a:'no',ag:'3050',f:'casual',ft:'first',r:'15 min'},
 {t:210,e:'below1000',a:'no',ag:'50plus',f:'inactive',ft:'first',r:'60+ min'},
 {t:195,e:'below1000',a:'no',ag:'3050',f:'inactive',ft:'first',r:'60+ min'},
-{t:180,e:'mid',a:'no',ag:'50plus',f:'inactive',ft:'first',r:'30-60 min'},
+{t:180,e:'mid',a:'no',ag:'50plus',f:'inactive',ft:'first',r:'45 min'},
 {t:240,e:'below1000',a:'no',ag:'50plus',f:'inactive',ft:'first',r:'60+ min'},
-{t:165,e:'above5000',a:'yes',ag:'50plus',f:'inactive',ft:'first',r:'30-60 min'},
+{t:165,e:'above5000',a:'yes',ag:'50plus',f:'inactive',ft:'first',r:'45 min'},
 ];
 const API='/.netlify/functions/entries';
 const ADMIN_PIN='6174';
